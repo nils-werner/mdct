@@ -29,7 +29,7 @@ if __name__ == "__main__":
         install_requires=[
             'numpy>=1.6',
             'scipy>=0.13.0',
-            'cffi',
+            'stft',
         ],
 
         extras_require={
@@ -63,5 +63,4 @@ if __name__ == "__main__":
         ],
         zip_safe=True,
         include_package_data=True,
-        ext_modules=[_timewarp_module],
     )
