@@ -3,6 +3,10 @@ import numpy
 import scipy
 import stft
 
+from . import windows
+
+__all__ = ['mdct', 'imdct']
+
 
 def mdct(x):
     """ Calculate MDCT of input signal
