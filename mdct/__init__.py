@@ -7,9 +7,7 @@ def mdct(x):
     N = len(x)
     n0 = (N / 2 + 1) / 2
 
-    wa = numpy.sin((numpy.arange(N) + 0.5) / N * numpy.pi)
-
-    x = x * numpy.exp(-1j * 2 * numpy.pi * numpy.arange(N) / 2 / N) * wa
+    x = x * numpy.exp(-1j * 2 * numpy.pi * numpy.arange(N) / 2 / N)
     X = scipy.fftpack.fft(x)
 
     return numpy.real(
@@ -23,7 +21,6 @@ def imdct(X):
     N = 2 * len(X)
     n0 = (N / 2 + 1) / 2
 
-    ws = numpy.sin((numpy.arange(N) + 0.5) / N * numpy.pi)
     Y = numpy.zeros(N)
 
     Y[:N/2] = X
@@ -32,7 +29,7 @@ def imdct(X):
     Y *= numpy.abs(numpy.exp(1j * 2 * numpy.pi * numpy.arange(N) * n0 / N))
     y = scipy.fftpack.ifft(Y)
 
-    return 2 * ws * numpy.real(
+    return 2 * numpy.real(
         y * numpy.exp(1j * 2 * numpy.pi * (numpy.arange(N) + n0) / 2 / N)
     )
 
@@ -40,7 +37,6 @@ def imdct(X):
 def spectrogram(x):
     return stft.spectrogram(
         x,
-        window=1,
         halved=False,
         transform=mdct
     )
@@ -49,7 +45,6 @@ def spectrogram(x):
 def ispectrogram(X):
     return stft.ispectrogram(
         X,
-        window=1,
         halved=False,
         transform=imdct
     )
