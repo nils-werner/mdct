@@ -8,10 +8,10 @@ if __name__ == "__main__":
         name='mdct',
 
         # Version
-        version='0.1',
+        version='0.2',
 
         # Description
-        description='A fast MDCT implementation using FFTW.',
+        description='A fast MDCT implementation using SciPy and FFTs',
 
         # Your contact information
         author='Nils Werner',
@@ -52,11 +52,10 @@ if __name__ == "__main__":
         ],
 
         classifiers=[
-            'Development Status :: 1 - Planning',
-            'Environment :: Console',
+            'Development Status :: 4 - Beta',
             'Intended Audience :: Telecommunications Industry',
             'Intended Audience :: Science/Research',
-            'License :: Other/Proprietary License',
+            'License :: OSI Approved :: MIT License',
             'Programming Language :: Python :: 2.7',
             'Topic :: Multimedia :: Sound/Audio :: Analysis',
             'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis'

@@ -1,7 +1,7 @@
 MDCT
 ====
 
-A fast MDCT implementation using FFTW
+A fast MDCT implementation using SciPy and FFTs
 
 
 Installation
