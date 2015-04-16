@@ -13,6 +13,7 @@ __all__ = [
     'mdct', 'imdct',
     'mdst', 'imdst',
     'cmdct', 'icmdct',
+    'mclt', 'imclt',
 ]
 
 
@@ -165,7 +166,7 @@ def cmdct(
     framelength=1024,
     window=None
 ):
-    """ Calculate lapped complex MDCT of input signal
+    """ Calculate lapped complex MDCT/MCLT of input signal
 
     Parameters
     ----------
@@ -201,7 +202,7 @@ def icmdct(
     framelength=1024,
     window=None
 ):
-    """ Calculate lapped inverse complex MDCT of input signal
+    """ Calculate lapped inverse complex MDCT/MCLT of input signal
 
     Parameters
     ----------
@@ -230,3 +231,6 @@ def icmdct(
         window=window,
         transform=transforms.icmdct
     )
+
+mclt = cmdct
+imclt = icmdct

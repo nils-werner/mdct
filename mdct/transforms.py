@@ -10,6 +10,7 @@ __all__ = [
     'mdct', 'imdct',
     'mdst', 'imdst',
     'cmdct', 'icmdct',
+    'mclt', 'imclt',
 ]
 
 
@@ -82,7 +83,7 @@ def imdst(X):
 
 
 def cmdct(x):
-    """ Calculate complex MDCT of input signal
+    """ Calculate complex MDCT/MCLT of input signal
 
     Parameters
     ----------
@@ -108,7 +109,7 @@ def cmdct(x):
 
 
 def icmdct(X):
-    """ Calculate inverse complex MDCT of input signal
+    """ Calculate inverse complex MDCT/MCLT of input signal
 
     Parameters
     ----------
@@ -138,3 +139,6 @@ def icmdct(X):
             1j * 2 * numpy.pi * (numpy.arange(N) + n0) / 2 / N
         )
     )
+
+mclt = cmdct
+imclt = icmdct
