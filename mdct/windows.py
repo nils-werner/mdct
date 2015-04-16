@@ -1,6 +1,14 @@
+""" Module for windowing functions not found in SciPy
+
+"""
+
 from __future__ import division
 import numpy as np
 from scipy.signal import kaiser
+
+__all__ = [
+    'kaiser_derived',
+]
 
 
 def kaiser_derived(M, beta=4.):

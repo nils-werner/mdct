@@ -16,13 +16,24 @@ def sig(N, request):
     return numpy.sin(numpy.arange(N) / request.param)
 
 
-def test_lengths(sig):
-    assert len(mdct.mdct(sig)) == len(sig) // 2
-    assert len(mdct.ispectrogram(mdct.spectrogram(sig))) == len(sig)
+@pytest.fixture(params=(
+    (mdct.mdct, mdct.imdct),
+    (mdct.mdst, mdct.imdst),
+    (mdct.cmdct, mdct.icmdct),
+))
+def function(request):
+    return request.param
 
 
-def test_inverse(sig):
-    spec = mdct.spectrogram(sig)
-    outsig = mdct.ispectrogram(spec)
+def test_halving(sig):
+    assert len(mdct.transforms.mdct(sig)) == len(sig) // 2
+    assert len(mdct.transforms.mdst(sig)) == len(sig) // 2
+    assert len(mdct.transforms.cmdct(sig)) == len(sig) // 2
 
+
+def test_inverse(sig, function):
+    spec = function[0](sig)
+    outsig = function[1](spec)
+
+    assert len(outsig) == len(sig)
     assert numpy.allclose(outsig, sig)

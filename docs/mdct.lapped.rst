@@ -1,10 +1,10 @@
-mdct module
-===========
+mdct.lapped module
+==================
 
 Module reference
 ----------------
 
-.. automodule:: mdct
+.. automodule:: mdct.lapped
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,10 +1,10 @@
-mdct module
-===========
+mdct.windows module
+===================
 
 Module reference
 ----------------
 
-.. automodule:: mdct
+.. automodule:: mdct.windows
     :members:
     :undoc-members:
     :show-inheritance:

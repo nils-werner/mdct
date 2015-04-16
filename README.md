@@ -27,6 +27,8 @@ Usage
     spectrum = mdct.mdct(sig)
 
 
+**Also see the [docs](https://work.audiolabs.uni-erlangen.de/~nils/docs/mdct/)**
+
 References
 ----------
 

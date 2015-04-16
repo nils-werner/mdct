@@ -1,10 +1,10 @@
-mdct module
-===========
+mdct.transforms module
+======================
 
 Module reference
 ----------------
 
-.. automodule:: mdct
+.. automodule:: mdct.transforms
     :members:
     :undoc-members:
     :show-inheritance:

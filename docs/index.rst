@@ -7,6 +7,9 @@ Contents:
    :maxdepth: 2
 
    mdct
+   mdct.transforms
+   mdct.lapped
+   mdct.windows
 
 Wikipedia says about the MDCT:
 
