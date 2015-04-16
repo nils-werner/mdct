@@ -13,7 +13,7 @@ def N():
 
 @pytest.fixture(params=(100., 1000.))
 def sig(N, request):
-    return numpy.sin(numpy.arange(N) / request.param)
+    return numpy.sin(numpy.arange(N) / 44100. * request.param * 2 * numpy.pi)
 
 
 @pytest.fixture(params=(
@@ -31,9 +31,16 @@ def test_halving(sig):
     assert len(mdct.transforms.cmdct(sig)) == len(sig) // 2
 
 
+def test_outtypes(sig):
+    assert numpy.all(numpy.isreal(mdct.transforms.mdct(sig)))
+    assert numpy.all(numpy.isreal(mdct.transforms.mdst(sig)))
+    assert numpy.all(numpy.iscomplex(mdct.transforms.cmdct(sig)))
+
+
 def test_inverse(sig, function):
     spec = function[0](sig)
     outsig = function[1](spec)
 
+    assert numpy.all(numpy.isreal(outsig))
     assert len(outsig) == len(sig)
     assert numpy.allclose(outsig, sig)
