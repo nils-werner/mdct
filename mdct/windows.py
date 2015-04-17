@@ -25,7 +25,7 @@ def kaiser_derived(M, beta=4.):
     Returns
     -------
     w : ndarray
-        The window, with the maximum value normalized to 1.
+        The window, normalized to fulfil the Princen-Bradley condition.
 
     Notes
     -----
@@ -51,11 +51,10 @@ def kaiser_derived(M, beta=4.):
         )
 
     w = np.zeros(M)
-    tmp = kaiser(M // 2 + 1, beta)[:M // 2]
-    num = np.cumsum(tmp)
-    denom = np.sum(tmp)
-
-    w[:M//2] = np.sqrt(num / denom)
-    w[-M//2:] = np.sqrt(num[::-1] / denom)
+    kaiserw = kaiser(M // 2 + 1, beta)
+    csum = np.cumsum(kaiserw)
+    halfw = np.sqrt(csum[:-1] / csum[-1])
+    w[:M//2] = halfw
+    w[-M//2:] = halfw[::-1]
 
     return w
