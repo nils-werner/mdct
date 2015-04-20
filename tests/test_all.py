@@ -20,6 +20,23 @@ slow_functions = [
 ]
 
 
+corresponding_functions = zip(fast_functions, slow_functions)
+
+any_functions = fast_functions + slow_functions
+
+all_functions = list(itertools.chain.from_iterable(
+    [
+        list(itertools.product(*zip(*item)))
+        for item in corresponding_functions
+    ]
+))
+
+cross_functions = [
+    item for item in all_functions
+    if item not in itertools.chain.from_iterable(corresponding_functions)
+]
+
+
 @pytest.fixture
 def N():
     # Roughly 44100 * 10, must be multiple of 1024 b/c of stft
@@ -55,7 +72,7 @@ def slow_function(request):
     return request.param
 
 
-@pytest.fixture(params=fast_functions + slow_functions)
+@pytest.fixture(params=any_functions)
 def any_function(request):
     """ This fixture combines all transforms with its module-internal
     inverse, (to test fast and slow in isolation)
@@ -64,17 +81,19 @@ def any_function(request):
     return request.param
 
 
-@pytest.fixture(
-    params=itertools.chain.from_iterable(
-        [
-            list(itertools.product(*zip(*item)))
-            for item in zip(fast_functions, slow_functions)
-        ]
-    )
-)
+@pytest.fixture(params=all_functions)
 def all_function(request):
     """ This fixture combines all possible combinations of transform
     and its inverse, across modules (to test fast vs slow inversability)
+
+    """
+    return request.param
+
+
+@pytest.fixture(params=cross_functions)
+def cross_function(request):
+    """ This fixture combines all combinations of transform
+    and its inverse from the other modules (to test fast-slow inversability)
 
     """
     return request.param
