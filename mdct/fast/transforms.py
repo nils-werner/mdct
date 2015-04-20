@@ -62,7 +62,7 @@ def mdst(x):
         The output signal
 
     """
-    return numpy.imag(cmdct(x * 1j))
+    return -1 * numpy.imag(cmdct(x))
 
 
 def imdst(X):
