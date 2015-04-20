@@ -158,9 +158,9 @@ def test_backward_equality(spectrum, backward_function):
     assert numpy.allclose(sig, sig2)
 
 
-def test_inverse(sig, cross_function):
-    spec = cross_function[0](sig)
-    outsig = cross_function[1](spec)
+def test_inverse(sig, all_function):
+    spec = all_function[0](sig)
+    outsig = all_function[1](spec)
 
     assert numpy.all(numpy.isreal(outsig))
     assert len(outsig) == len(sig)
