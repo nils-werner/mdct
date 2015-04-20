@@ -1,6 +1,6 @@
 from . import windows
-from . import transforms
-from .lapped import cmdct, icmdct, mclt, imclt, mdct, imdct, mdst, imdst
+from . import fast
+from .fast import cmdct, icmdct, mclt, imclt, mdct, imdct, mdst, imdst
 
 __all__ = [
     'mdct', 'imdct',

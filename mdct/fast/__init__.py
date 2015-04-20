@@ -2,7 +2,7 @@
 
 .. note::
     Functions defined in this module are exposed using the :mod:`mdct` module
-    itself, meaning :code:`mdct.mdct == mdct.lapped.mdct` etc.
+    itself, meaning :code:`mdct.mdct == mdct.fast.mdct` etc.
 
 """
 
@@ -41,7 +41,7 @@ def mdct(
 
     See Also
     --------
-    mdct.transforms.mdct : MDCT
+    mdct.fast.transforms.mdct : MDCT
 
     """
     return stft.spectrogram(
@@ -77,7 +77,7 @@ def imdct(
 
     See Also
     --------
-    mdct.transforms.imdct : inverse MDCT
+    mdct.fast.transforms.imdct : inverse MDCT
 
     """
     return stft.ispectrogram(
@@ -113,7 +113,7 @@ def mdst(
 
     See Also
     --------
-    mdct.transforms.mdst : MDST
+    mdct.fast.transforms.mdst : MDST
 
     """
     return stft.spectrogram(
@@ -149,7 +149,7 @@ def imdst(
 
     See Also
     --------
-    mdct.transforms.imdst : inverse MDST
+    mdct.fast.transforms.imdst : inverse MDST
 
     """
     return stft.ispectrogram(
@@ -185,7 +185,7 @@ def cmdct(
 
     See Also
     --------
-    mdct.transforms.cmdct : complex MDCT
+    mdct.fast.transforms.cmdct : complex MDCT
 
     """
     return stft.spectrogram(
@@ -221,7 +221,7 @@ def icmdct(
 
     See Also
     --------
-    mdct.transforms.icmdct : inverse complex MDCT
+    mdct.fast.transforms.icmdct : inverse complex MDCT
 
     """
     return stft.ispectrogram(

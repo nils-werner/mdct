@@ -10,15 +10,15 @@ This toolkit implements several related transforms and their inverses:
 All transforms are implemented as an un-windowed standalone transform as well as
 their lapped counterpart, along with windowing and overlap-add reconstruction.
 
-The implementation used here is based on the FFT wrapper published in [Borsi].
+The implementation used here is based on the FFT wrapper published in [Bosi].
 
 .. toctree::
    :maxdepth: 2
    :hidden:
 
    mdct
-   mdct.transforms
-   mdct.lapped
+   mdct.fast
+   mdct.slow
    mdct.windows
 
 Indices and tables
@@ -29,5 +29,5 @@ Indices and tables
 * :ref:`search`
 
 
-.. [Borsi] Marina Bosi, Richard E. Goldberg and Leonardo Chiariglione,
+.. [Bosi] Marina Bosi, Richard E. Goldberg and Leonardo Chiariglione,
    "Introduction to Digital Audio Coding and Standards", Kluwer Academic Publishers, 01 December, 2002.
