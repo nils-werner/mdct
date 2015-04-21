@@ -96,16 +96,16 @@ def cmdct(x):
         The output signal
 
     """
-    N = len(x)
-    n0 = (N / 2 + 1) / 2
+    N = len(x) // 2
+    n0 = (N + 1) / 2
 
     X = scipy.fftpack.fft(
-        x * numpy.exp(-1j * 2 * numpy.pi * numpy.arange(N) / 2 / N)
+        x * numpy.exp(-1j * numpy.pi * numpy.arange(N * 2) / (N * 2))
     )
 
-    return X[:N/2] * numpy.exp(
-        -1j * 2 * numpy.pi * n0 * (numpy.arange(N / 2) + 0.5) / N
-    ) * numpy.sqrt(2 / N)
+    return X[:N] * numpy.exp(
+        -1j * numpy.pi * n0 * (numpy.arange(N) + 0.5) / N
+    ) * numpy.sqrt(1 / N)
 
 
 def icmdct(X):
@@ -122,23 +122,23 @@ def icmdct(X):
         The output signal
 
     """
-    N = 2 * len(X)
-    n0 = (N / 2 + 1) / 2
+    N = len(X)
+    n0 = (N + 1) / 2
 
-    Y = numpy.zeros(N, dtype=X.dtype)
+    Y = numpy.zeros(N * 2, dtype=X.dtype)
 
-    Y[:N/2] = X
-    Y[N/2:] = -1 * numpy.conj(X[::-1])
+    Y[:N] = X
+    Y[N:] = -1 * numpy.conj(X[::-1])
 
     y = scipy.fftpack.ifft(
-        Y * numpy.exp(1j * 2 * numpy.pi * n0 * numpy.arange(N) / N)
+        Y * numpy.exp(1j * numpy.pi * n0 * numpy.arange(N * 2) / N)
     )
 
     return numpy.real(
         y * numpy.exp(
-            1j * 2 * numpy.pi * (numpy.arange(N) + n0) / 2 / N
+            1j * numpy.pi * (numpy.arange(N * 2) + n0) / (N * 2)
         )
-    ) * numpy.sqrt(N / 2)
+    ) * numpy.sqrt(N)
 
 mclt = cmdct
 imclt = icmdct
