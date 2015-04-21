@@ -119,55 +119,60 @@ backward_unlapped_functions = \
     backward(fast_unlapped_functions, slow_unlapped_functions)
 
 
-def test_halving(sig, module):
+def test_halving(sig, module, odd):
     #
     # Test if the output is half the size of the input
     #
-    assert len(module.transforms.mdct(sig)) == len(sig) // 2
-    assert len(module.transforms.mdst(sig)) == len(sig) // 2
-    assert len(module.transforms.cmdct(sig)) == len(sig) // 2
+    if odd:
+        offset = 0
+    else:
+        offset = 1
+
+    assert len(module.transforms.mdct(sig, odd=odd)) == len(sig) // 2 + offset
+    assert len(module.transforms.mdst(sig, odd=odd)) == len(sig) // 2 + offset
+    assert len(module.transforms.cmdct(sig, odd=odd)) == len(sig) // 2 + offset
 
 
-def test_outtypes(sig, module):
-    assert numpy.all(numpy.isreal(module.transforms.mdct(sig)))
-    assert numpy.all(numpy.isreal(module.transforms.mdst(sig)))
-    assert numpy.any(numpy.iscomplex(module.transforms.cmdct(sig)))
-    assert numpy.all(numpy.isreal(module.transforms.icmdct(sig)))
+def test_outtypes(sig, backsig, module, odd):
+    assert numpy.all(numpy.isreal(module.transforms.mdct(sig, odd=odd)))
+    assert numpy.all(numpy.isreal(module.transforms.mdst(sig, odd=odd)))
+    assert numpy.any(numpy.iscomplex(module.transforms.cmdct(sig, odd=odd)))
+    assert numpy.all(numpy.isreal(module.transforms.icmdct(backsig, odd=odd)))
 
 
 @pytest.mark.parametrize("function", forward_functions)
-def test_forward_equality(sig, function):
+def test_forward_equality(sig, function, odd):
     #
     # Test if slow and fast transforms are equal. Tests all with lapping.
     #
-    spec = function[0](sig)
-    spec2 = function[1](sig)
+    spec = function[0](sig, odd=odd)
+    spec2 = function[1](sig, odd=odd)
 
     assert spec.shape == spec2.shape
     assert numpy.allclose(spec, spec2)
 
 
 @pytest.mark.parametrize("function", backward_functions)
-def test_backward_equality(spectrum, function):
+def test_backward_equality(spectrum, function, odd):
     #
     # Test if slow and fast inverse transforms are equal.
     # Tests all with lapping.
     #
-    sig = function[0](spectrum)
-    sig2 = function[1](spectrum)
+    sig = function[0](spectrum, odd=odd)
+    sig2 = function[1](spectrum, odd=odd)
 
     assert sig.shape == sig2.shape
     assert numpy.allclose(sig, sig2)
 
 
 @pytest.mark.parametrize("function", all_functions)
-def test_inverse(sig, function):
-    spec = function[0](sig)
-    outsig = function[1](spec)
+def test_inverse(sig, function, odd):
     #
     # Test if combinations slow-slow, slow-fast, fast-fast, fast-slow are all
     # perfect reconstructing. Tests all with lapping.
     #
+    spec = function[0](sig, odd=odd)
+    outsig = function[1](spec, odd=odd)
 
     assert numpy.all(numpy.isreal(outsig))
     assert len(outsig) == len(sig)
@@ -175,39 +180,39 @@ def test_inverse(sig, function):
 
 
 @pytest.mark.parametrize("function", unlapped_functions)
-def test_unlapped_inverse(sig, function):
+def test_unlapped_inverse(sig, function, odd):
     #
     # Test if combinations slow-slow, slow-fast, fast-fast, fast-slow are all
     # perfect reconstructing. Tests only CMDCT without lapping.
     #
-    spec = function[0](sig)
-    outsig = function[1](spec)
+    spec = function[0](sig, odd=odd)
+    outsig = function[1](spec, odd=odd)
 
     assert len(outsig) == len(sig)
     assert numpy.allclose(outsig, sig)
 
 
 @pytest.mark.parametrize("function", forward_unlapped_functions)
-def test_unlapped_equality(sig, function):
+def test_unlapped_equality(sig, function, odd):
     #
     # Test if slow and fast unlapped transforms are equal. Tests only
     # CDMCT without lapping.
     #
-    outsig = function[0](sig)
-    outsig2 = function[1](sig)
+    outsig = function[0](sig, odd=odd)
+    outsig2 = function[1](sig, odd=odd)
 
     assert outsig.shape == outsig2.shape
     assert numpy.allclose(outsig, outsig2)
 
 
 @pytest.mark.parametrize("function", backward_unlapped_functions)
-def test_unlapped_backwards_equality(sig, function):
+def test_unlapped_backwards_equality(backsig, function, odd):
     #
     # Test if slow and fast unlapped inverse transforms are equal. Tests only
     # CDMCT without lapping.
     #
-    outsig = function[0](sig)
-    outsig2 = function[1](sig)
+    outsig = function[0](backsig, odd=odd)
+    outsig2 = function[1](backsig, odd=odd)
 
     assert outsig.shape == outsig2.shape
     assert numpy.allclose(outsig, outsig2)

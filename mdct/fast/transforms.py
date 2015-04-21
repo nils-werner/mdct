@@ -14,13 +14,15 @@ __all__ = [
 ]
 
 
-def mdct(x):
+def mdct(x, odd=True):
     """ Calculate modified discrete cosine transform of input signal
 
     Parameters
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -28,16 +30,18 @@ def mdct(x):
         The output signal
 
     """
-    return numpy.real(cmdct(x)) * numpy.sqrt(2)
+    return numpy.real(cmdct(x, odd=odd)) * numpy.sqrt(2)
 
 
-def imdct(X):
+def imdct(X, odd=True):
     """ Calculate inverse modified discrete cosine transform of input signal
 
     Parameters
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -45,16 +49,18 @@ def imdct(X):
         The output signal
 
     """
-    return icmdct(X) * numpy.sqrt(2)
+    return icmdct(X, odd=odd) * numpy.sqrt(2)
 
 
-def mdst(x):
+def mdst(x, odd=True):
     """ Calculate modified discrete sine transform of input signal
 
     Parameters
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -62,16 +68,18 @@ def mdst(x):
         The output signal
 
     """
-    return -1 * numpy.imag(cmdct(x)) * numpy.sqrt(2)
+    return -1 * numpy.imag(cmdct(x, odd=odd)) * numpy.sqrt(2)
 
 
-def imdst(X):
+def imdst(X, odd=True):
     """ Calculate inverse modified discrete sine transform of input signal
 
     Parameters
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -79,16 +87,18 @@ def imdst(X):
         The output signal
 
     """
-    return -1 * icmdct(X * 1j) * numpy.sqrt(2)
+    return -1 * icmdct(X * 1j, odd=odd) * numpy.sqrt(2)
 
 
-def cmdct(x):
+def cmdct(x, odd=True):
     """ Calculate complex MDCT/MCLT of input signal
 
     Parameters
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -98,23 +108,37 @@ def cmdct(x):
     """
     N = len(x) // 2
     n0 = (N + 1) / 2
+    if odd:
+        outlen = N
+        pre_twiddle = numpy.exp(-1j * numpy.pi * numpy.arange(N * 2) / (N * 2))
+        offset = 0.5
+    else:
+        outlen = N + 1
+        pre_twiddle = 1.0
+        offset = 0.0
 
-    X = scipy.fftpack.fft(
-        x * numpy.exp(-1j * numpy.pi * numpy.arange(N * 2) / (N * 2))
+    post_twiddle = numpy.exp(
+        -1j * numpy.pi * n0 * (numpy.arange(outlen) + offset) / N
     )
 
-    return X[:N] * numpy.exp(
-        -1j * numpy.pi * n0 * (numpy.arange(N) + 0.5) / N
-    ) * numpy.sqrt(1 / N)
+    X = scipy.fftpack.fft(x * pre_twiddle)[:outlen]
+
+    if not odd:
+        X[0] *= numpy.sqrt(0.5)
+        X[-1] *= numpy.sqrt(0.5)
+
+    return X * post_twiddle * numpy.sqrt(1 / N)
 
 
-def icmdct(X):
+def icmdct(X, odd=True):
     """ Calculate inverse complex MDCT/MCLT of input signal
 
     Parameters
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -122,23 +146,43 @@ def icmdct(X):
         The output signal
 
     """
-    N = len(X)
-    n0 = (N + 1) / 2
+    if not odd and len(X) % 2 == 0:
+        raise ValueError(
+            "Even inverse CMDCT requires an odd number "
+            "of coefficients"
+        )
 
-    Y = numpy.zeros(N * 2, dtype=X.dtype)
+    X = X.copy()
 
-    Y[:N] = X
-    Y[N:] = -1 * numpy.conj(X[::-1])
+    if odd:
+        N = len(X)
+        n0 = (N + 1) / 2
 
-    y = scipy.fftpack.ifft(
-        Y * numpy.exp(1j * numpy.pi * n0 * numpy.arange(N * 2) / N)
-    )
-
-    return numpy.real(
-        y * numpy.exp(
+        post_twiddle = numpy.exp(
             1j * numpy.pi * (numpy.arange(N * 2) + n0) / (N * 2)
         )
-    ) * numpy.sqrt(N)
+
+        Y = numpy.zeros(N * 2, dtype=X.dtype)
+        Y[:N] = X
+        Y[N:] = -1 * numpy.conj(X[::-1])
+    else:
+        N = len(X) - 1
+        n0 = (N + 1) / 2
+
+        post_twiddle = 1.0
+
+        X[0] *= numpy.sqrt(2)
+        X[-1] *= numpy.sqrt(2)
+
+        Y = numpy.zeros(N * 2, dtype=X.dtype)
+        Y[:N+1] = X
+        Y[N+1:] = -1 * numpy.conj(X[-2:0:-1])
+
+    pre_twiddle = numpy.exp(1j * numpy.pi * n0 * numpy.arange(N * 2) / N)
+
+    y = scipy.fftpack.ifft(Y * pre_twiddle)
+
+    return numpy.real(y * post_twiddle) * numpy.sqrt(N)
 
 mclt = cmdct
 imclt = icmdct

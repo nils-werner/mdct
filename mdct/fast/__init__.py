@@ -6,6 +6,8 @@
 
 """
 
+import functools
+
 import stft
 from . import transforms
 
@@ -20,7 +22,8 @@ __all__ = [
 def mdct(
     x,
     framelength=1024,
-    window=None
+    window=None,
+    odd=True,
 ):
     """ Calculate lapped MDCT of input signal
 
@@ -44,19 +47,32 @@ def mdct(
     mdct.fast.transforms.mdct : MDCT
 
     """
-    return stft.spectrogram(
-        x,
-        halved=False,
-        framelength=framelength,
-        window=window,
-        transform=transforms.mdct
-    )
+    if not odd:
+        return stft.spectrogram(
+            x,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=[
+                functools.partial(transforms.mdct, odd=False),
+                functools.partial(transforms.mdst, odd=False),
+            ]
+        )
+    else:
+        return stft.spectrogram(
+            x,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=transforms.mdct,
+        )
 
 
 def imdct(
     X,
     framelength=1024,
-    window=None
+    window=None,
+    odd=True,
 ):
     """ Calculate lapped inverse MDCT of input signal
 
@@ -80,19 +96,32 @@ def imdct(
     mdct.fast.transforms.imdct : inverse MDCT
 
     """
-    return stft.ispectrogram(
-        X,
-        halved=False,
-        framelength=framelength,
-        window=window,
-        transform=transforms.imdct
-    )
+    if not odd:
+        return stft.ispectrogram(
+            X,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=[
+                functools.partial(transforms.imdct, odd=False),
+                functools.partial(transforms.imdst, odd=False),
+            ]
+        )
+    else:
+        return stft.ispectrogram(
+            X,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=transforms.imdct,
+        )
 
 
 def mdst(
     x,
     framelength=1024,
-    window=None
+    window=None,
+    odd=True,
 ):
     """ Calculate lapped MDST of input signal
 
@@ -116,19 +145,32 @@ def mdst(
     mdct.fast.transforms.mdst : MDST
 
     """
-    return stft.spectrogram(
-        x,
-        halved=False,
-        framelength=framelength,
-        window=window,
-        transform=transforms.mdst
-    )
+    if not odd:
+        return stft.spectrogram(
+            x,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=[
+                functools.partial(transforms.mdst, odd=False),
+                functools.partial(transforms.mdct, odd=False),
+            ]
+        )
+    else:
+        return stft.spectrogram(
+            x,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=transforms.mdst,
+        )
 
 
 def imdst(
     X,
     framelength=1024,
-    window=None
+    window=None,
+    odd=True,
 ):
     """ Calculate lapped inverse MDST of input signal
 
@@ -152,19 +194,32 @@ def imdst(
     mdct.fast.transforms.imdst : inverse MDST
 
     """
-    return stft.ispectrogram(
-        X,
-        halved=False,
-        framelength=framelength,
-        window=window,
-        transform=transforms.imdst
-    )
+    if not odd:
+        return stft.ispectrogram(
+            X,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=[
+                functools.partial(transforms.imdst, odd=False),
+                functools.partial(transforms.imdct, odd=False),
+            ]
+        )
+    else:
+        return stft.ispectrogram(
+            X,
+            halved=False,
+            framelength=framelength,
+            window=window,
+            transform=transforms.imdst,
+        )
 
 
 def cmdct(
     x,
     framelength=1024,
-    window=None
+    window=None,
+    odd=True,
 ):
     """ Calculate lapped complex MDCT/MCLT of input signal
 
@@ -193,14 +248,15 @@ def cmdct(
         halved=False,
         framelength=framelength,
         window=window,
-        transform=transforms.cmdct
+        transform=functools.partial(transforms.cmdct, odd=odd),
     )
 
 
 def icmdct(
     X,
     framelength=1024,
-    window=None
+    window=None,
+    odd=True,
 ):
     """ Calculate lapped inverse complex MDCT/MCLT of input signal
 
@@ -229,7 +285,7 @@ def icmdct(
         halved=False,
         framelength=framelength,
         window=window,
-        transform=transforms.icmdct
+        transform=functools.partial(transforms.icmdct, odd=odd),
     )
 
 mclt = cmdct
