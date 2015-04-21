@@ -164,7 +164,7 @@ def icmdct(X):
                 ) * (
                     numpy.arange(N) + 0.5
                 )
-            ) + numpy.imag(X) * numpy.sin(
+            ) - numpy.imag(X) * numpy.sin(
                 (numpy.pi / N) * (
                     n + 0.5 + N / 2
                 ) * (
@@ -173,7 +173,7 @@ def icmdct(X):
             )
         )
 
-    return x / N * 2
+    return x / N
 
 
 mclt = cmdct
@@ -249,4 +249,4 @@ def itrans(X, func):
             )
         )
 
-    return x / N * 2
+    return x * 2 / N

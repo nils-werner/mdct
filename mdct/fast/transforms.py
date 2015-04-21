@@ -62,7 +62,7 @@ def mdst(x):
         The output signal
 
     """
-    return -1 * numpy.imag(cmdct(x))
+    return numpy.imag(cmdct(x))
 
 
 def imdst(X):
@@ -79,7 +79,7 @@ def imdst(X):
         The output signal
 
     """
-    return icmdct(X)
+    return icmdct(X * 1j)
 
 
 def cmdct(x):
@@ -128,7 +128,7 @@ def icmdct(X):
     Y = numpy.zeros(N, dtype=X.dtype)
 
     Y[:N/2] = X
-    Y[N/2:] = -1 * X[::-1]
+    Y[N/2:] = -1 * numpy.conj(X[::-1])
 
     y = scipy.fftpack.ifft(
         Y * numpy.exp(1j * 2 * numpy.pi * n0 * numpy.arange(N) / N)
