@@ -31,7 +31,7 @@ def mdct(x):
         The output signal
 
     """
-    return trans(x, func=numpy.cos)
+    return trans(x, func=numpy.cos) * numpy.sqrt(2)
 
 
 def imdct(X):
@@ -51,7 +51,7 @@ def imdct(X):
         The output signal
 
     """
-    return itrans(X, func=numpy.cos)
+    return itrans(X, func=numpy.cos) * numpy.sqrt(2)
 
 
 def mdst(x):
@@ -71,7 +71,7 @@ def mdst(x):
         The output signal
 
     """
-    return trans(x, func=numpy.sin)
+    return trans(x, func=numpy.sin) * numpy.sqrt(2)
 
 
 def imdst(X):
@@ -91,7 +91,7 @@ def imdst(X):
         The output signal
 
     """
-    return itrans(X, func=numpy.sin)
+    return itrans(X, func=numpy.sin) * numpy.sqrt(2)
 
 
 def cmdct(x):
@@ -217,7 +217,7 @@ def trans(x, func):
             )
         )
 
-    return X * numpy.sqrt(2 / N)
+    return X * numpy.sqrt(1 / N)
 
 
 def itrans(X, func):
@@ -253,4 +253,4 @@ def itrans(X, func):
             )
         )
 
-    return x * numpy.sqrt(2 / N)
+    return x * numpy.sqrt(1 / N)
