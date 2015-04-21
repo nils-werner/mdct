@@ -152,26 +152,23 @@ def icmdct(X):
         The output signal
 
     """
+    # return itrans(X, func=lambda x: numpy.cos(x) + numpy.imag(numpy.sin(x)))
     N = len(X)
     x = numpy.zeros(N * 2, dtype=numpy.complex)
 
     for n in range(len(x)):
         x[n] = numpy.sum(
-            X * (
-                numpy.cos(
-                    (numpy.pi / N) * (
-                        n + 0.5 + N / 2
-                    ) * (
-                        numpy.arange(N) + 0.5
-                    )
-                ) + numpy.imag(
-                    numpy.sin(
-                        (numpy.pi / N) * (
-                            n + 0.5 + N / 2
-                        ) * (
-                            numpy.arange(N) + 0.5
-                        )
-                    )
+            numpy.real(X) * numpy.cos(
+                (numpy.pi / N) * (
+                    n + 0.5 + N / 2
+                ) * (
+                    numpy.arange(N) + 0.5
+                )
+            ) + numpy.imag(X) * numpy.sin(
+                (numpy.pi / N) * (
+                    n + 0.5 + N / 2
+                ) * (
+                    numpy.arange(N) + 0.5
                 )
             )
         )
