@@ -111,30 +111,7 @@ def cmdct(x):
         The output signal
 
     """
-    # return trans(x, func=lambda x: numpy.cos(x) - 1j * numpy.sin(x))
-    N = len(x) // 2
-    X = numpy.zeros(N, dtype=numpy.complex)
-
-    for k in range(len(X)):
-        X[k] = numpy.sum(
-            x * (
-                numpy.cos(
-                    (numpy.pi / N) * (
-                        numpy.arange(2 * N) + 0.5 + N / 2
-                    ) * (
-                        k + 0.5
-                    )
-                ) - 1j * numpy.sin(
-                    (numpy.pi / N) * (
-                        numpy.arange(2 * N) + 0.5 + N / 2
-                    ) * (
-                        k + 0.5
-                    )
-                )
-            )
-        )
-
-    return X * numpy.sqrt(1 / N)
+    return trans(x, func=lambda x: numpy.cos(x) - 1j * numpy.sin(x))
 
 
 def icmdct(X):
@@ -154,30 +131,7 @@ def icmdct(X):
         The output signal
 
     """
-    # return itrans(X, func=lambda x: numpy.cos(x) + 1j * numpy.sin(x))
-    N = len(X)
-    x = numpy.zeros(N * 2, dtype=numpy.complex)
-
-    for n in range(len(x)):
-        x[n] = numpy.sum(
-            X * (
-                numpy.cos(
-                    (numpy.pi / N) * (
-                        n + 0.5 + N / 2
-                    ) * (
-                        numpy.arange(N) + 0.5
-                    )
-                ) + 1j * numpy.sin(
-                    (numpy.pi / N) * (
-                        n + 0.5 + N / 2
-                    ) * (
-                        numpy.arange(N) + 0.5
-                    )
-                )
-            )
-        )
-
-    return x * numpy.sqrt(1 / N)
+    return itrans(X, func=lambda x: numpy.cos(x) + 1j * numpy.sin(x))
 
 
 mclt = cmdct
