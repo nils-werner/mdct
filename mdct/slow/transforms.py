@@ -132,7 +132,7 @@ def cmdct(x):
             )
         )
 
-    return X
+    return X * numpy.sqrt(1 / N)
 
 
 def icmdct(X):
@@ -173,7 +173,7 @@ def icmdct(X):
             )
         )
 
-    return x / N
+    return x * numpy.sqrt(1 / N)
 
 
 mclt = cmdct
@@ -213,7 +213,7 @@ def trans(x, func):
             )
         )
 
-    return X
+    return X * numpy.sqrt(2 / N)
 
 
 def itrans(X, func):
@@ -249,4 +249,4 @@ def itrans(X, func):
             )
         )
 
-    return x * 2 / N
+    return x * numpy.sqrt(2 / N)

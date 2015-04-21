@@ -28,7 +28,7 @@ def mdct(x):
         The output signal
 
     """
-    return numpy.real(cmdct(x))
+    return numpy.real(cmdct(x)) * numpy.sqrt(2)
 
 
 def imdct(X):
@@ -45,7 +45,7 @@ def imdct(X):
         The output signal
 
     """
-    return icmdct(X)
+    return icmdct(X) * numpy.sqrt(2)
 
 
 def mdst(x):
@@ -62,7 +62,7 @@ def mdst(x):
         The output signal
 
     """
-    return numpy.imag(cmdct(x))
+    return numpy.imag(cmdct(x)) * numpy.sqrt(2)
 
 
 def imdst(X):
@@ -79,7 +79,7 @@ def imdst(X):
         The output signal
 
     """
-    return icmdct(X * 1j)
+    return icmdct(X * 1j) * numpy.sqrt(2)
 
 
 def cmdct(x):
@@ -134,7 +134,7 @@ def icmdct(X):
         Y * numpy.exp(1j * 2 * numpy.pi * n0 * numpy.arange(N) / N)
     )
 
-    return 2 * numpy.real(
+    return numpy.real(
         y * numpy.exp(
             1j * 2 * numpy.pi * (numpy.arange(N) + n0) / 2 / N
         )
