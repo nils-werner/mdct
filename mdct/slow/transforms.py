@@ -117,17 +117,19 @@ def cmdct(x):
 
     for k in range(len(X)):
         X[k] = numpy.sum(
-            x * numpy.cos(
-                (numpy.pi / N) * (
-                    numpy.arange(2 * N) + 0.5 + N / 2
-                ) * (
-                    k + 0.5
-                )
-            ) - 1j * x * numpy.sin(
-                (numpy.pi / N) * (
-                    numpy.arange(2 * N) + 0.5 + N / 2
-                ) * (
-                    k + 0.5
+            x * (
+                numpy.cos(
+                    (numpy.pi / N) * (
+                        numpy.arange(2 * N) + 0.5 + N / 2
+                    ) * (
+                        k + 0.5
+                    )
+                ) - 1j * numpy.sin(
+                    (numpy.pi / N) * (
+                        numpy.arange(2 * N) + 0.5 + N / 2
+                    ) * (
+                        k + 0.5
+                    )
                 )
             )
         )
@@ -152,23 +154,25 @@ def icmdct(X):
         The output signal
 
     """
-    # return itrans(X, func=lambda x: numpy.cos(x) + numpy.imag(numpy.sin(x)))
+    # return itrans(X, func=lambda x: numpy.cos(x) + 1j * numpy.sin(x))
     N = len(X)
     x = numpy.zeros(N * 2, dtype=numpy.complex)
 
     for n in range(len(x)):
         x[n] = numpy.sum(
-            numpy.real(X) * numpy.cos(
-                (numpy.pi / N) * (
-                    n + 0.5 + N / 2
-                ) * (
-                    numpy.arange(N) + 0.5
-                )
-            ) - numpy.imag(X) * numpy.sin(
-                (numpy.pi / N) * (
-                    n + 0.5 + N / 2
-                ) * (
-                    numpy.arange(N) + 0.5
+            X * (
+                numpy.cos(
+                    (numpy.pi / N) * (
+                        n + 0.5 + N / 2
+                    ) * (
+                        numpy.arange(N) + 0.5
+                    )
+                ) + 1j * numpy.sin(
+                    (numpy.pi / N) * (
+                        n + 0.5 + N / 2
+                    ) * (
+                        numpy.arange(N) + 0.5
+                    )
                 )
             )
         )
