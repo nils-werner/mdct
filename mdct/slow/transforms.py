@@ -204,7 +204,7 @@ def trans(x, func):
 
     """
     N = len(x) // 2
-    X = numpy.zeros(N)
+    X = numpy.zeros(N, dtype=numpy.complex)
 
     for k in range(len(X)):
         X[k] = numpy.sum(
@@ -240,7 +240,7 @@ def itrans(X, func):
 
     """
     N = len(X)
-    x = numpy.zeros(N * 2)
+    x = numpy.zeros(N * 2, dtype=numpy.complex)
 
     for n in range(len(x)):
         x[n] = numpy.sum(
