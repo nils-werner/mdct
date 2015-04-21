@@ -111,24 +111,23 @@ def cmdct(x):
         The output signal
 
     """
+    # return trans(x, func=lambda x: numpy.cos(x) - 1j * numpy.sin(x))
     N = len(x) // 2
     X = numpy.zeros(N, dtype=numpy.complex)
 
     for k in range(len(X)):
         X[k] = numpy.sum(
-            x * (
-                numpy.cos(
-                    (numpy.pi / N) * (
-                        numpy.arange(2 * N) + 0.5 + N / 2
-                    ) * (
-                        k + 0.5
-                    )
-                ) - 1j * numpy.sin(
-                    (numpy.pi / N) * (
-                        numpy.arange(2 * N) + 0.5 + N / 2
-                    ) * (
-                        k + 0.5
-                    )
+            x * numpy.cos(
+                (numpy.pi / N) * (
+                    numpy.arange(2 * N) + 0.5 + N / 2
+                ) * (
+                    k + 0.5
+                )
+            ) - 1j * x * numpy.sin(
+                (numpy.pi / N) * (
+                    numpy.arange(2 * N) + 0.5 + N / 2
+                ) * (
+                    k + 0.5
                 )
             )
         )
