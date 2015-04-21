@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 
-def kaiser_derived(M, beta=4.):
+def kaiser_derived(M, beta):
     """ Return a Kaiser-Bessel derived window.
 
     Parameters
@@ -39,14 +39,18 @@ def kaiser_derived(M, beta=4.):
            https://en.wikipedia.org/wiki/Kaiser_window
 
     """
+    try:
+        from scipy.signal import kaiser_derived as scipy_kd
+        return scipy_kd(M, beta)
+    except ImportError:
+        pass
+
     if M < 1:
         return np.array([])
-    if M == 1:
-        return np.ones(1, 'd')
 
     if M % 2:
         raise ValueError(
-            "Kaiser Bessel Derived windows are only defined for even number ",
+            "Kaiser Bessel Derived windows are only defined for even number "
             "of taps"
         )
 
