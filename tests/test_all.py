@@ -40,35 +40,6 @@ forward_functions = [(a, b) for (a, _), (b, _) in corresponding_functions]
 backward_functions = [(a, b) for (_, a), (_, b) in corresponding_functions]
 
 
-@pytest.fixture
-def length():
-    return 5
-
-
-@pytest.fixture
-def N(length):
-    # must be multiple of 1024 b/c of stft
-    return length * 1024
-
-
-@pytest.fixture(params=(100., 1000.))
-def sig(N, request):
-    return numpy.sin(numpy.arange(N) / 44100. * request.param * 2 * numpy.pi)
-
-
-@pytest.fixture
-def spectrum(N, length):
-    return numpy.random.rand(N // (length * 2), length * 2 + 1)
-
-
-@pytest.fixture(params=(
-    mdct.fast,
-    mdct.slow,
-))
-def module(request):
-    return request.param
-
-
 @pytest.fixture(params=fast_functions)
 def fast_function(request):
     """ This fixture returns all fast transforms and its fast inverse
