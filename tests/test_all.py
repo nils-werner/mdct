@@ -19,89 +19,107 @@ slow_functions = [
     (mdct.slow.cmdct, mdct.slow.icmdct)
 ]
 
-
-corresponding_functions = list(zip(fast_functions, slow_functions))
-
-any_functions = fast_functions + slow_functions
-
-all_functions = list(itertools.chain.from_iterable(
-    [
-        list(itertools.product(*zip(*item)))
-        for item in corresponding_functions
-    ]
-))
-
-cross_functions = [
-    item for item in all_functions
-    if item not in itertools.chain.from_iterable(corresponding_functions)
+fast_unlapped_functions = [
+    (mdct.fast.transforms.cmdct, mdct.fast.transforms.icmdct),
 ]
 
-forward_functions = [(a, b) for (a, _), (b, _) in corresponding_functions]
-backward_functions = [(a, b) for (_, a), (_, b) in corresponding_functions]
+slow_unlapped_functions = [
+    (mdct.slow.transforms.cmdct, mdct.slow.transforms.icmdct),
+]
 
 
-@pytest.fixture(params=fast_functions)
-def fast_function(request):
-    """ This fixture returns all fast transforms and its fast inverse
+def correspondences(a, b):
+    """ Returns
 
-    """
-    return request.param
-
-
-@pytest.fixture(params=slow_functions)
-def slow_function(request):
-    """ This fixture returns all slow transforms and its slow inverse
+     - fast.forwards->slow.forwards
+     - fast.backwards->slow.backwards
 
     """
-    return request.param
+    return list(zip(a, b))
 
 
-@pytest.fixture(params=any_functions)
-def any_function(request):
-    """ This fixture combines all transforms with its module-internal
-    inverse, (to test fast and slow in isolation)
+def merge(a, b):
+    """ Returns
 
-    """
-    return request.param
-
-
-@pytest.fixture(params=all_functions)
-def all_function(request):
-    """ This fixture combines all possible combinations of transform
-    and its inverse, across modules (to test fast vs slow inversability)
+     - slow.forwards->slow.backwards
+     - fast.forwards->fast.backwards
 
     """
-    return request.param
+    return a + b
 
 
-@pytest.fixture(params=cross_functions)
-def cross_function(request):
-    """ This fixture combines all combinations of transform
-    and its inverse from the other modules (to test fast-slow inversability)
+def combinations(a, b):
+    """ Returns all combinations of
 
-    """
-    return request.param
-
-
-@pytest.fixture(params=forward_functions)
-def forward_function(request):
-    """ This fixture combines all forward transforms and
-    their correspondence from the other modules (to test fast-slow equality)
+     - fast.forwards->fast.backwards
+     - fast.forwards->slow.backwards
+     - slow.forwards->fast.backwards
+     - slow.forwards->slow.backwards
 
     """
-    return request.param
+    return list(itertools.chain.from_iterable(
+        [
+            list(itertools.product(*zip(*item)))
+            for item in correspondences(a, b)
+        ]
+    ))
 
 
-@pytest.fixture(params=backward_functions)
-def backward_function(request):
-    """ This fixture combines all backward transforms and
-    their correspondence from the other modules (to test fast-slow equality)
+def crossings(a, b):
+    """ Returns
+
+     - fast.forwards->slow.backwards
+     - slow.forwards->fast.backwards
+
+     but never
+
+     - slow.forwards->slow.backwards
+     - fast.forwards->fast.backwards
 
     """
-    return request.param
+    return [
+        item for item in combinations(a, b)
+        if item not in itertools.chain.from_iterable(correspondences(a, b))
+    ]
+
+
+def forward(a, b):
+    """ Returns
+
+     - fast.forwards->slow.forwards
+
+    """
+    return [(x, y) for (x, _), (y, _) in correspondences(a, b)]
+
+
+def backward(a, b):
+    """ Returns
+
+     - fast.backwards->slow.backwards
+
+    """
+    return [(x, y) for (_, x), (_, y) in correspondences(a, b)]
+
+
+corresponding_functions = correspondences(fast_functions, slow_functions)
+any_functions = merge(fast_functions, slow_functions)
+all_functions = combinations(fast_functions, slow_functions)
+cross_functions = crossings(fast_functions, slow_functions)
+forward_functions = forward(fast_functions, slow_functions)
+backward_functions = backward(fast_functions, slow_functions)
+
+unlapped_functions = combinations(
+    fast_unlapped_functions, slow_unlapped_functions
+)
+
+forward_unlapped_functions = \
+    forward(fast_unlapped_functions, slow_unlapped_functions)
 
 
 def test_halving(sig, module):
+    #
+    # Test if the output is half the size of the input
+    #
     assert len(module.transforms.mdct(sig)) == len(sig) // 2
     assert len(module.transforms.mdst(sig)) == len(sig) // 2
     assert len(module.transforms.cmdct(sig)) == len(sig) // 2
@@ -113,26 +131,66 @@ def test_outtypes(sig, module):
     assert numpy.all(numpy.iscomplex(module.transforms.cmdct(sig)))
 
 
-def test_forward_equality(sig, forward_function):
-    spec = forward_function[0](sig)
-    spec2 = forward_function[1](sig)
+@pytest.mark.parametrize("function", forward_functions)
+def test_forward_equality(sig, function):
+    #
+    # Test if slow and fast transforms are equal. Tests all with lapping.
+    #
+    spec = function[0](sig)
+    spec2 = function[1](sig)
 
     assert spec.shape == spec2.shape
     assert numpy.allclose(spec, spec2)
 
 
-def test_backward_equality(spectrum, backward_function):
-    sig = backward_function[0](spectrum)
-    sig2 = backward_function[1](spectrum)
+@pytest.mark.parametrize("function", backward_functions)
+def test_backward_equality(spectrum, function):
+    #
+    # Test if slow and fast inverse transforms are equal.
+    # Tests all with lapping.
+    #
+    sig = function[0](spectrum)
+    sig2 = function[1](spectrum)
 
     assert sig.shape == sig2.shape
     assert numpy.allclose(sig, sig2)
 
 
-def test_inverse(sig, all_function):
-    spec = all_function[0](sig)
-    outsig = all_function[1](spec)
+@pytest.mark.parametrize("function", all_functions)
+def test_inverse(sig, function):
+    spec = function[0](sig)
+    outsig = function[1](spec)
+    #
+    # Test if combinations slow-slow, slow-fast, fast-fast, fast-slow are all
+    # perfect reconstructing. Tests all with lapping.
+    #
 
     assert numpy.all(numpy.isreal(outsig))
     assert len(outsig) == len(sig)
     assert numpy.allclose(outsig, sig)
+
+
+@pytest.mark.parametrize("function", unlapped_functions)
+def test_unlapped_inverse(sig, function):
+    #
+    # Test if combinations slow-slow, slow-fast, fast-fast, fast-slow are all
+    # perfect reconstructing. Tests only CMDCT without lapping.
+    #
+    spec = function[0](sig)
+    outsig = function[1](spec)
+
+    assert len(outsig) == len(sig)
+    assert numpy.allclose(outsig, sig)
+
+
+@pytest.mark.parametrize("function", forward_unlapped_functions)
+def test_unlapped_equality(sig, function):
+    #
+    # Test if slow and fast inverse transforms are equal. Tests only
+    # CDMCT without lapping.
+    #
+    outsig = function[0](sig)
+    outsig2 = function[1](sig)
+
+    assert outsig.shape == outsig2.shape
+    assert numpy.allclose(outsig, outsig2)
