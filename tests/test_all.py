@@ -132,6 +132,7 @@ def test_outtypes(sig, module):
     assert numpy.all(numpy.isreal(module.transforms.mdct(sig)))
     assert numpy.all(numpy.isreal(module.transforms.mdst(sig)))
     assert numpy.all(numpy.iscomplex(module.transforms.cmdct(sig)))
+    assert numpy.all(numpy.isreal(module.transforms.icmdct(sig)))
 
 
 @pytest.mark.parametrize("function", forward_functions)
