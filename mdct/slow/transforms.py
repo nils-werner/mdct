@@ -207,4 +207,4 @@ def itrans(X, func):
             )
         )
 
-    return x * numpy.sqrt(1 / N)
+    return numpy.real(x) * numpy.sqrt(1 / N)
