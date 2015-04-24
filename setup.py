@@ -5,7 +5,7 @@ import setuptools
 if __name__ == "__main__":
     setuptools.setup(
         name='mdct',
-        version='0.2',
+        version='0.3',
 
         description='A fast MDCT implementation using SciPy and FFTs',
         author='Nils Werner',
