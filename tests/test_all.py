@@ -115,6 +115,9 @@ unlapped_functions = combinations(
 forward_unlapped_functions = \
     forward(fast_unlapped_functions, slow_unlapped_functions)
 
+backward_unlapped_functions = \
+    backward(fast_unlapped_functions, slow_unlapped_functions)
+
 
 def test_halving(sig, module):
     #
@@ -186,7 +189,20 @@ def test_unlapped_inverse(sig, function):
 @pytest.mark.parametrize("function", forward_unlapped_functions)
 def test_unlapped_equality(sig, function):
     #
-    # Test if slow and fast inverse transforms are equal. Tests only
+    # Test if slow and fast unlapped transforms are equal. Tests only
+    # CDMCT without lapping.
+    #
+    outsig = function[0](sig)
+    outsig2 = function[1](sig)
+
+    assert outsig.shape == outsig2.shape
+    assert numpy.allclose(outsig, outsig2)
+
+
+@pytest.mark.parametrize("function", backward_unlapped_functions)
+def test_unlapped_backwards_equality(sig, function):
+    #
+    # Test if slow and fast unlapped inverse transforms are equal. Tests only
     # CDMCT without lapping.
     #
     outsig = function[0](sig)
