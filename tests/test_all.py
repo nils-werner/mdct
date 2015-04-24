@@ -141,38 +141,38 @@ def test_outtypes(sig, backsig, module, odd):
 
 
 @pytest.mark.parametrize("function", forward_functions)
-def test_forward_equality(sig, function, odd):
+def test_forward_equality(sig, function, odd, window):
     #
     # Test if slow and fast transforms are equal. Tests all with lapping.
     #
-    spec = function[0](sig, odd=odd)
-    spec2 = function[1](sig, odd=odd)
+    spec = function[0](sig, odd=odd, window=window)
+    spec2 = function[1](sig, odd=odd, window=window)
 
     assert spec.shape == spec2.shape
     assert numpy.allclose(spec, spec2)
 
 
 @pytest.mark.parametrize("function", backward_functions)
-def test_backward_equality(spectrum, function, odd):
+def test_backward_equality(spectrum, function, odd, window):
     #
     # Test if slow and fast inverse transforms are equal.
     # Tests all with lapping.
     #
-    sig = function[0](spectrum, odd=odd)
-    sig2 = function[1](spectrum, odd=odd)
+    sig = function[0](spectrum, odd=odd, window=window)
+    sig2 = function[1](spectrum, odd=odd, window=window)
 
     assert sig.shape == sig2.shape
     assert numpy.allclose(sig, sig2)
 
 
 @pytest.mark.parametrize("function", all_functions)
-def test_inverse(sig, function, odd):
+def test_inverse(sig, function, odd, window):
     #
     # Test if combinations slow-slow, slow-fast, fast-fast, fast-slow are all
     # perfect reconstructing. Tests all with lapping.
     #
-    spec = function[0](sig, odd=odd)
-    outsig = function[1](spec, odd=odd)
+    spec = function[0](sig, odd=odd, window=window)
+    outsig = function[1](spec, odd=odd, window=window)
 
     assert numpy.all(numpy.isreal(outsig))
     assert len(outsig) == len(sig)

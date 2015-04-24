@@ -1,8 +1,10 @@
 import numpy
+import scipy
 import pytest
 import mdct
 import mdct.slow
 import random as rand
+import functools
 
 
 @pytest.fixture
@@ -53,4 +55,12 @@ def module(request):
 
 @pytest.fixture(params=(True, False))
 def odd(request):
+    return request.param
+
+
+@pytest.fixture(params=(
+    scipy.signal.cosine,
+    functools.partial(mdct.windows.kaiser_derived, beta=4.)
+))
+def window(request):
     return request.param
