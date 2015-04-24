@@ -14,7 +14,7 @@ __all__ = [
 ]
 
 
-def mdct(x):
+def mdct(x, odd=True):
     """ Calculate modified discrete cosine transform of input signal in an
     inefficient pure-Python method.
 
@@ -24,6 +24,8 @@ def mdct(x):
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -31,10 +33,10 @@ def mdct(x):
         The output signal
 
     """
-    return trans(x, func=numpy.cos) * numpy.sqrt(2)
+    return trans(x, func=numpy.cos, odd=odd) * numpy.sqrt(2)
 
 
-def imdct(X):
+def imdct(X, odd=True):
     """ Calculate inverse modified discrete cosine transform of input
     signal in an inefficient pure-Python method.
 
@@ -44,6 +46,8 @@ def imdct(X):
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -51,10 +55,10 @@ def imdct(X):
         The output signal
 
     """
-    return itrans(X, func=numpy.cos) * numpy.sqrt(2)
+    return itrans(X, func=numpy.cos, odd=odd) * numpy.sqrt(2)
 
 
-def mdst(x):
+def mdst(x, odd=True):
     """ Calculate modified discrete sine transform of input signal in an
     inefficient pure-Python method.
 
@@ -64,6 +68,8 @@ def mdst(x):
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -71,10 +77,10 @@ def mdst(x):
         The output signal
 
     """
-    return trans(x, func=numpy.sin) * numpy.sqrt(2)
+    return trans(x, func=numpy.sin, odd=odd) * numpy.sqrt(2)
 
 
-def imdst(X):
+def imdst(X, odd=True):
     """ Calculate inverse modified discrete sine transform of input
     signal in an inefficient pure-Python method.
 
@@ -84,6 +90,8 @@ def imdst(X):
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -91,10 +99,10 @@ def imdst(X):
         The output signal
 
     """
-    return itrans(X, func=numpy.sin) * numpy.sqrt(2)
+    return itrans(X, func=numpy.sin, odd=odd) * numpy.sqrt(2)
 
 
-def cmdct(x):
+def cmdct(x, odd=True):
     """ Calculate complex modified discrete cosine transform of input
     inefficient pure-Python method.
 
@@ -104,6 +112,8 @@ def cmdct(x):
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -111,10 +121,10 @@ def cmdct(x):
         The output signal
 
     """
-    return trans(x, func=lambda x: numpy.cos(x) - 1j * numpy.sin(x))
+    return trans(x, func=lambda x: numpy.cos(x) - 1j * numpy.sin(x), odd=odd)
 
 
-def icmdct(X):
+def icmdct(X, odd=True):
     """ Calculate inverse complex modified discrete cosine transform of input
     signal in an inefficient pure-Python method.
 
@@ -124,6 +134,8 @@ def icmdct(X):
     ----------
     X : array_like
         The input signal
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -131,14 +143,14 @@ def icmdct(X):
         The output signal
 
     """
-    return itrans(X, func=lambda x: numpy.cos(x) + 1j * numpy.sin(x))
+    return itrans(X, func=lambda x: numpy.cos(x) + 1j * numpy.sin(x), odd=odd)
 
 
 mclt = cmdct
 imclt = icmdct
 
 
-def trans(x, func):
+def trans(x, func, odd=True):
     """ Calculate modified discrete sine/cosine transform of input signal in an
     inefficient pure-Python method.
 
@@ -150,6 +162,8 @@ def trans(x, func):
         The input signal
     func : callable
         The transform kernel function
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -158,23 +172,35 @@ def trans(x, func):
 
     """
     N = len(x) // 2
-    X = numpy.zeros(N, dtype=numpy.complex)
+    if odd:
+        outlen = N
+        offset = 0.5
+    else:
+        outlen = N + 1
+        offset = 0.0
+
+    X = numpy.zeros(outlen, dtype=numpy.complex)
+    n = numpy.arange(len(x))
 
     for k in range(len(X)):
         X[k] = numpy.sum(
             x * func(
                 (numpy.pi / N) * (
-                    numpy.arange(2 * N) + 0.5 + N / 2
+                    n + 0.5 + N / 2
                 ) * (
-                    k + 0.5
+                    k + offset
                 )
             )
         )
 
+    if not odd:
+        X[0] *= numpy.sqrt(0.5)
+        X[-1] *= numpy.sqrt(0.5)
+
     return X * numpy.sqrt(1 / N)
 
 
-def itrans(X, func):
+def itrans(X, func, odd=True):
     """ Calculate inverse modified discrete sine/cosine transform of input
     signal in an inefficient pure-Python method.
 
@@ -186,6 +212,8 @@ def itrans(X, func):
         The input signal
     func : callable
         The transform kernel function
+    odd : boolean
+        Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
     -------
@@ -193,8 +221,26 @@ def itrans(X, func):
         The output signal
 
     """
-    N = len(X)
+    if not odd and len(X) % 2 == 0:
+        raise ValueError(
+            "Even inverse CMDCT requires an odd number "
+            "of coefficients"
+        )
+
+    X = X.copy()
+
+    if odd:
+        N = len(X)
+        offset = 0.5
+    else:
+        N = len(X) - 1
+        offset = 0.0
+
+        X[0] *= numpy.sqrt(0.5)
+        X[-1] *= numpy.sqrt(0.5)
+
     x = numpy.zeros(N * 2, dtype=numpy.complex)
+    k = numpy.arange(len(X))
 
     for n in range(len(x)):
         x[n] = numpy.sum(
@@ -202,7 +248,7 @@ def itrans(X, func):
                 (numpy.pi / N) * (
                     n + 0.5 + N / 2
                 ) * (
-                    numpy.arange(N) + 0.5
+                    k + offset
                 )
             )
         )

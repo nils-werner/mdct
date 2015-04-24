@@ -28,8 +28,19 @@ def sig(N, random):
 
 
 @pytest.fixture
-def spectrum(N, random, length):
-    return numpy.random.rand(N // (length * 2), length * 2 + 1)
+def backsig(N, random, odd):
+    if odd:
+        return numpy.random.rand(N)
+    else:
+        return numpy.random.rand(N + 1)
+
+
+@pytest.fixture
+def spectrum(N, random, length, odd):
+    if odd:
+        return numpy.random.rand(N // (length * 2), length * 2 + 1)
+    else:
+        return numpy.random.rand(N // (length * 2) + 1, length * 2 + 1)
 
 
 @pytest.fixture(params=(
@@ -37,4 +48,9 @@ def spectrum(N, random, length):
     mdct.slow,
 ))
 def module(request):
+    return request.param
+
+
+@pytest.fixture(params=(True, False))
+def odd(request):
     return request.param
