@@ -21,9 +21,8 @@ __all__ = [
 
 def mdct(
     x,
-    framelength=1024,
-    window=None,
     odd=True,
+    **kwargs
 ):
     """ Calculate lapped MDCT of input signal
 
@@ -31,11 +30,6 @@ def mdct(
     ----------
     x : array_like
         The input signal
-    framelength : int
-        Framesize for :code:`stft.spectrogram`. Defaults to 1024.
-    window : array_like
-        Window for :code:`stft.ispectrogram`.
-        Defaults to :code:`scipy.signal.cosine`.
 
     Returns
     -------
@@ -47,32 +41,31 @@ def mdct(
     mdct.fast.transforms.mdct : MDCT
 
     """
+    kwargs.setdefault('framelength', 1024)
+
     if not odd:
         return stft.spectrogram(
             x,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=[
                 functools.partial(transforms.mdct, odd=False),
                 functools.partial(transforms.mdst, odd=False),
-            ]
+            ],
+            halved=False,
+            **kwargs
         )
     else:
         return stft.spectrogram(
             x,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=transforms.mdct,
+            halved=False,
+            **kwargs
         )
 
 
 def imdct(
     X,
-    framelength=1024,
-    window=None,
     odd=True,
+    **kwargs
 ):
     """ Calculate lapped inverse MDCT of input signal
 
@@ -80,11 +73,6 @@ def imdct(
     ----------
     x : array_like
         The input signal
-    framelength : int
-        Framesize for :code:`stft.ispectrogram`. Defaults to 1024.
-    window : array_like
-        Window for :code:`stft.ispectrogram`.
-        Defaults to :code:`scipy.signal.cosine`.
 
     Returns
     -------
@@ -96,32 +84,31 @@ def imdct(
     mdct.fast.transforms.imdct : inverse MDCT
 
     """
+    kwargs.setdefault('framelength', 1024)
+
     if not odd:
         return stft.ispectrogram(
             X,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=[
                 functools.partial(transforms.imdct, odd=False),
                 functools.partial(transforms.imdst, odd=False),
-            ]
+            ],
+            halved=False,
+            **kwargs
         )
     else:
         return stft.ispectrogram(
             X,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=transforms.imdct,
+            halved=False,
+            **kwargs
         )
 
 
 def mdst(
     x,
-    framelength=1024,
-    window=None,
     odd=True,
+    **kwargs
 ):
     """ Calculate lapped MDST of input signal
 
@@ -129,11 +116,6 @@ def mdst(
     ----------
     x : array_like
         The input signal
-    framelength : int
-        Framesize for :code:`stft.spectrogram`. Defaults to 1024.
-    window : array_like
-        Window for :code:`stft.ispectrogram`.
-        Defaults to :code:`scipy.signal.cosine`.
 
     Returns
     -------
@@ -145,32 +127,31 @@ def mdst(
     mdct.fast.transforms.mdst : MDST
 
     """
+    kwargs.setdefault('framelength', 1024)
+
     if not odd:
         return stft.spectrogram(
             x,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=[
                 functools.partial(transforms.mdst, odd=False),
                 functools.partial(transforms.mdct, odd=False),
-            ]
+            ],
+            halved=False,
+            **kwargs
         )
     else:
         return stft.spectrogram(
             x,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=transforms.mdst,
+            halved=False,
+            **kwargs
         )
 
 
 def imdst(
     X,
-    framelength=1024,
-    window=None,
     odd=True,
+    **kwargs
 ):
     """ Calculate lapped inverse MDST of input signal
 
@@ -178,11 +159,6 @@ def imdst(
     ----------
     x : array_like
         The input signal
-    framelength : int
-        Framesize for :code:`stft.ispectrogram`. Defaults to 1024.
-    window : array_like
-        Window for :code:`stft.ispectrogram`.
-        Defaults to :code:`scipy.signal.cosine`.
 
     Returns
     -------
@@ -194,32 +170,31 @@ def imdst(
     mdct.fast.transforms.imdst : inverse MDST
 
     """
+    kwargs.setdefault('framelength', 1024)
+
     if not odd:
         return stft.ispectrogram(
             X,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=[
                 functools.partial(transforms.imdst, odd=False),
                 functools.partial(transforms.imdct, odd=False),
-            ]
+            ],
+            halved=False,
+            **kwargs
         )
     else:
         return stft.ispectrogram(
             X,
-            halved=False,
-            framelength=framelength,
-            window=window,
             transform=transforms.imdst,
+            halved=False,
+            **kwargs
         )
 
 
 def cmdct(
     x,
-    framelength=1024,
-    window=None,
     odd=True,
+    **kwargs
 ):
     """ Calculate lapped complex MDCT/MCLT of input signal
 
@@ -227,11 +202,6 @@ def cmdct(
     ----------
     x : array_like
         The input signal
-    framelength : int
-        Framesize for :code:`stft.spectrogram`. Defaults to 1024.
-    window : array_like
-        Window for :code:`stft.ispectrogram`.
-        Defaults to :code:`scipy.signal.cosine`.
 
     Returns
     -------
@@ -245,18 +215,16 @@ def cmdct(
     """
     return stft.spectrogram(
         x,
-        halved=False,
-        framelength=framelength,
-        window=window,
         transform=functools.partial(transforms.cmdct, odd=odd),
+        halved=False,
+        **kwargs
     )
 
 
 def icmdct(
     X,
-    framelength=1024,
-    window=None,
     odd=True,
+    **kwargs
 ):
     """ Calculate lapped inverse complex MDCT/MCLT of input signal
 
@@ -264,11 +232,6 @@ def icmdct(
     ----------
     x : array_like
         The input signal
-    framelength : int
-        Framesize for :code:`stft.ispectrogram`. Defaults to 1024.
-    window : array_like
-        Window for :code:`stft.ispectrogram`.
-        Defaults to :code:`scipy.signal.cosine`.
 
     Returns
     -------
@@ -282,10 +245,9 @@ def icmdct(
     """
     return stft.ispectrogram(
         X,
-        halved=False,
-        framelength=framelength,
-        window=window,
         transform=functools.partial(transforms.icmdct, odd=odd),
+        halved=False,
+        **kwargs
     )
 
 mclt = cmdct
