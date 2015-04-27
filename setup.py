@@ -17,7 +17,7 @@ if __name__ == "__main__":
         install_requires=[
             'numpy>=1.6',
             'scipy>=0.13.0',
-            'stft>=0.5',
+            'stft>=0.5.1.dev',
         ],
         extras_require={
             'tests': [
