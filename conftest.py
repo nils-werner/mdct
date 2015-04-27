@@ -13,9 +13,9 @@ def random():
     numpy.random.seed(0)
 
 
-@pytest.fixture
+@pytest.fixture(params=(5, 6))
 def length():
-    return 5
+    return request.param
 
 
 @pytest.fixture
@@ -29,7 +29,7 @@ def sig(N, random):
     return numpy.random.rand(N)
 
 
-@pytest.fixture(params=(1024,))
+@pytest.fixture(params=(1024, 2048))
 def framelength(request):
     return request.param
 
