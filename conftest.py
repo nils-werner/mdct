@@ -29,6 +29,11 @@ def sig(N, random):
     return numpy.random.rand(N)
 
 
+@pytest.fixture(params=(1024,))
+def framelength(request):
+    return request.param
+
+
 @pytest.fixture
 def backsig(N, random, odd):
     if odd:
