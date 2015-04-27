@@ -14,7 +14,7 @@ def random():
 
 
 @pytest.fixture(params=(5, 6))
-def length():
+def length(request):
     return request.param
 
 
@@ -43,11 +43,11 @@ def backsig(N, random, odd):
 
 
 @pytest.fixture
-def spectrum(N, random, length, odd):
+def spectrum(framelength, random, length, odd):
     if odd:
-        return numpy.random.rand(N // (length * 2), length * 2 + 1)
+        return numpy.random.rand(framelength // 2, length * 2 + 1)
     else:
-        return numpy.random.rand(N // (length * 2) + 1, length * 2 + 1)
+        return numpy.random.rand(framelength // 2 + 1, length * 2 + 1)
 
 
 @pytest.fixture(params=(

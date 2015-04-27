@@ -12,6 +12,7 @@ def test_weird_backtransform(sig, framelength):
     outsig = mdct.imdct(
         spec,
         framelength=framelength,
+        outlength=len(sig)
     )
 
     assert sig.shape == outsig.shape
