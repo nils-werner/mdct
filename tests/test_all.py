@@ -152,6 +152,22 @@ def test_forward_equality(sig, function, odd, window, framelength):
     assert numpy.allclose(spec, spec2)
 
 
+@pytest.mark.parametrize("function", forward_functions)
+def test_energy_convervation(sig, function, odd, window, framelength):
+    #
+    # Test if slow and fast transforms are equal. Tests all with lapping.
+    #
+    spec = function[0](sig, odd=odd, window=window, framelength=framelength)
+    spec2 = function[1](sig, odd=odd, window=window, framelength=framelength)
+
+    assert numpy.allclose(
+        numpy.sum(sig ** 2), numpy.sum(spec ** 2), atol=100, rtol=100
+    )
+    assert numpy.allclose(
+        numpy.sum(sig ** 2), numpy.sum(spec2 ** 2), atol=100, rtol=100
+    )
+
+
 @pytest.mark.parametrize("function", backward_functions)
 def test_backward_equality(spectrum, function, odd, window, framelength):
     #
