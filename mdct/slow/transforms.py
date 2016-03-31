@@ -1,5 +1,9 @@
 """ Module for calculating DCT type 4 using pure Python
 
+.. warning::
+    These core transforms will produce aliasing when used without overlap.
+    Please use :py:mod:`mdct` unless you know what this means.
+
 """
 
 from __future__ import division

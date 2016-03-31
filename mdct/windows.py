@@ -31,8 +31,6 @@ def kaiser_derived(M, beta):
     -----
     This window is only defined for an even number of taps.
 
-    .. versionadded:: 0.16.0
-
     References
     ----------
     .. [1] Wikipedia, "Kaiser window",

@@ -1,8 +1,8 @@
-""" Module for calculating lapped MDCT
+""" Module for calculating lapped MDCT using FFT
 
-.. note::
-    Functions defined in this module are exposed using the :mod:`mdct` module
-    itself, meaning :code:`mdct.mdct == mdct.fast.mdct` etc.
+.. warning::
+    Functions defined in this module are exposed using the :py:mod:`mdct` module
+    itself, please do not use this module directly.
 
 """
 
@@ -30,6 +30,10 @@ def mdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -73,6 +77,10 @@ def imdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -116,6 +124,10 @@ def mdst(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -159,6 +171,10 @@ def imdst(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -202,6 +218,10 @@ def cmdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -232,6 +252,10 @@ def icmdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------

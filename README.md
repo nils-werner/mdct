@@ -16,6 +16,7 @@ As usual
 
  - NumPy
  - SciPy
+ - STFT
 
 
 Usage

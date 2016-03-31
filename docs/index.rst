@@ -1,25 +1,40 @@
-MDCT documentation
-==================
+MDCT
+====
 
 This toolkit implements several related transforms and their inverses:
 
- - Modulated Complex Lapped Transform (MCLT) aka Complex Modified Discrete Cosine Transform (CMDCT)
- - Modified Discrete Cosine Transform (MDCT)
+ - **Modified Discrete Cosine Transform (MDCT)**
  - Modified Discrete Sine Transform (MDST)
+ - Modulated Complex Lapped Transform (MCLT) aka Complex Modified Discrete Cosine Transform (CMDCT)
 
-All transforms are implemented as an un-windowed standalone transform as well as
-their lapped counterpart, along with windowing and overlap-add reconstruction.
+All transforms are implemented as
 
-The implementation used here is based on the FFT wrapper published in [Bosi].
+ - the complete lapped transform, along with windowing and overlap-add reconstruction and
+ - the core un-windowed standalone transform.
+
+All transforms are implemeted in
+
+ - :py:mod:`mdct.fast`,a fast, FFT-based method (for actual use), see [Bosi]
+ - :py:mod:`mdct.slow`, a slow, pure-Python fashion (for testing) and
+
+Usage
+-----
+
+.. warning::
+    :py:mod:`mdct.fast` is exposed as :py:mod:`mdct` directly. Please use this module.
+
+.. code-block:: python
+
+    import mdct
+    spec = mdct.mdct(signal)
+    output = mdct.imdct(spec)
 
 .. toctree::
-   :maxdepth: 2
    :hidden:
 
-   mdct
-   mdct.fast
-   mdct.slow
-   mdct.windows
+   self
+   modules
+   internal
 
 Indices and tables
 ==================

@@ -1,9 +1,6 @@
 mdct module
 ===========
 
-Module reference
-----------------
-
 .. automodule:: mdct
     :members:
     :undoc-members:

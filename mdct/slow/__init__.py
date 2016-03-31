@@ -1,7 +1,7 @@
-""" Module for calculating lapped MDCT
+""" Module for calculating lapped MDCT using pure Python
 
-.. note::
-    This module is very slow and only meant for testing
+.. warning::
+    This module is very slow and only meant for testing. Use :py:mod:`mdct` instead.
 
 """
 
@@ -29,6 +29,10 @@ def mdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -72,6 +76,10 @@ def imdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -115,6 +123,10 @@ def mdst(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -158,6 +170,10 @@ def imdst(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -201,6 +217,10 @@ def cmdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
@@ -231,6 +251,10 @@ def icmdct(
     ----------
     x : array_like
         The input signal
+    odd : boolean
+        Oddly stacked transform
+    **kwargs
+        Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
     -------
