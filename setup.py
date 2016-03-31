@@ -17,13 +17,14 @@ if __name__ == "__main__":
         install_requires=[
             'numpy>=1.6',
             'scipy>=0.13.0',
-            'stft>=0.5.1.dev',
+            'stft>=0.5.2',
         ],
         extras_require={
             'tests': [
                 'pytest',
                 'pytest-cov',
                 'pytest-pep8',
+                'tox',
             ],
             'docs': [
                 'sphinx',
@@ -44,6 +45,7 @@ if __name__ == "__main__":
             'Intended Audience :: Science/Research',
             'License :: OSI Approved :: MIT License',
             'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3',
             'Topic :: Multimedia :: Sound/Audio :: Analysis',
             'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis'
         ],
