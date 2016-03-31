@@ -9,5 +9,4 @@ Internal Modules
 
     internal/mdct.fast
     internal/mdct.fast.transforms
-    internal/mdct.slow
     internal/mdct.slow.transforms
