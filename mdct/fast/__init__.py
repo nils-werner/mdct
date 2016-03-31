@@ -1,15 +1,15 @@
 """ Module for calculating lapped MDCT using FFT
 
 .. warning::
-    Functions defined in this module are exposed using the :py:mod:`mdct` module
-    itself, please do not use this module directly.
+    Functions defined in this module are exposed using the :py:mod:`mdct`
+    module itself, please do not use this module directly.
 
 """
 
 import functools
 
 import stft
-from . import transforms
+from . import transforms as transforms_default
 
 __all__ = [
     'mdct', 'imdct',
@@ -22,6 +22,7 @@ __all__ = [
 def mdct(
     x,
     odd=True,
+    transforms=None,
     **kwargs
 ):
     """ Calculate lapped MDCT of input signal
@@ -32,6 +33,9 @@ def mdct(
         The input signal
     odd : boolean
         Oddly stacked transform
+    transforms : module
+        Module reference to core transforms. Mostly used to replace
+        fast with slow core transforms, for testing.
     **kwargs
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
@@ -45,6 +49,9 @@ def mdct(
     mdct.fast.transforms.mdct : MDCT
 
     """
+    if transforms is None:
+        transforms = transforms_default
+
     kwargs.setdefault('framelength', 1024)
 
     if not odd:
@@ -69,6 +76,7 @@ def mdct(
 def imdct(
     X,
     odd=True,
+    transforms=None,
     **kwargs
 ):
     """ Calculate lapped inverse MDCT of input signal
@@ -79,6 +87,9 @@ def imdct(
         The input signal
     odd : boolean
         Oddly stacked transform
+    transforms : module
+        Module reference to core transforms. Mostly used to replace
+        fast with slow core transforms, for testing.
     **kwargs
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
@@ -92,6 +103,9 @@ def imdct(
     mdct.fast.transforms.imdct : inverse MDCT
 
     """
+    if transforms is None:
+        transforms = transforms_default
+
     kwargs.setdefault('framelength', 1024)
 
     if not odd:
@@ -116,6 +130,7 @@ def imdct(
 def mdst(
     x,
     odd=True,
+    transforms=None,
     **kwargs
 ):
     """ Calculate lapped MDST of input signal
@@ -126,6 +141,9 @@ def mdst(
         The input signal
     odd : boolean
         Oddly stacked transform
+    transforms : module
+        Module reference to core transforms. Mostly used to replace
+        fast with slow core transforms, for testing.
     **kwargs
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
@@ -139,6 +157,9 @@ def mdst(
     mdct.fast.transforms.mdst : MDST
 
     """
+    if transforms is None:
+        transforms = transforms_default
+
     kwargs.setdefault('framelength', 1024)
 
     if not odd:
@@ -163,6 +184,7 @@ def mdst(
 def imdst(
     X,
     odd=True,
+    transforms=None,
     **kwargs
 ):
     """ Calculate lapped inverse MDST of input signal
@@ -173,6 +195,9 @@ def imdst(
         The input signal
     odd : boolean
         Oddly stacked transform
+    transforms : module
+        Module reference to core transforms. Mostly used to replace
+        fast with slow core transforms, for testing.
     **kwargs
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
@@ -186,6 +211,9 @@ def imdst(
     mdct.fast.transforms.imdst : inverse MDST
 
     """
+    if transforms is None:
+        transforms = transforms_default
+
     kwargs.setdefault('framelength', 1024)
 
     if not odd:
@@ -210,6 +238,7 @@ def imdst(
 def cmdct(
     x,
     odd=True,
+    transforms=None,
     **kwargs
 ):
     """ Calculate lapped complex MDCT/MCLT of input signal
@@ -220,6 +249,9 @@ def cmdct(
         The input signal
     odd : boolean
         Oddly stacked transform
+    transforms : module
+        Module reference to core transforms. Mostly used to replace
+        fast with slow core transforms, for testing.
     **kwargs
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
@@ -233,6 +265,9 @@ def cmdct(
     mdct.fast.transforms.cmdct : complex MDCT
 
     """
+    if transforms is None:
+        transforms = transforms_default
+
     return stft.spectrogram(
         x,
         transform=functools.partial(transforms.cmdct, odd=odd),
@@ -244,6 +279,7 @@ def cmdct(
 def icmdct(
     X,
     odd=True,
+    transforms=None,
     **kwargs
 ):
     """ Calculate lapped inverse complex MDCT/MCLT of input signal
@@ -254,6 +290,9 @@ def icmdct(
         The input signal
     odd : boolean
         Oddly stacked transform
+    transforms : module
+        Module reference to core transforms. Mostly used to replace
+        fast with slow core transforms, for testing.
     **kwargs
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
@@ -267,6 +306,9 @@ def icmdct(
     mdct.fast.transforms.icmdct : inverse complex MDCT
 
     """
+    if transforms is None:
+        transforms = transforms_default
+
     return stft.ispectrogram(
         X,
         transform=functools.partial(transforms.icmdct, odd=odd),
