@@ -31,9 +31,9 @@ def mdct(
     ----------
     x : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Oddly stacked transform
-    transforms : module
+    transforms : module, optional
         Module reference to core transforms. Mostly used to replace
         fast with slow core transforms, for testing.
     **kwargs
@@ -85,12 +85,12 @@ def imdct(
     ----------
     x : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Oddly stacked transform
-    transforms : module
+    transforms : module, optional
         Module reference to core transforms. Mostly used to replace
         fast with slow core transforms, for testing.
-    **kwargs
+    **kwargs, optional
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -139,12 +139,12 @@ def mdst(
     ----------
     x : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Oddly stacked transform
-    transforms : module
+    transforms : module, optional
         Module reference to core transforms. Mostly used to replace
         fast with slow core transforms, for testing.
-    **kwargs
+    **kwargs, optional
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -193,12 +193,12 @@ def imdst(
     ----------
     x : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Oddly stacked transform
-    transforms : module
+    transforms : module, optional
         Module reference to core transforms. Mostly used to replace
         fast with slow core transforms, for testing.
-    **kwargs
+    **kwargs, optional
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -247,12 +247,12 @@ def cmdct(
     ----------
     x : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Oddly stacked transform
-    transforms : module
+    transforms : module, optional
         Module reference to core transforms. Mostly used to replace
         fast with slow core transforms, for testing.
-    **kwargs
+    **kwargs, optional
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -288,12 +288,12 @@ def icmdct(
     ----------
     x : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Oddly stacked transform
-    transforms : module
+    transforms : module, optional
         Module reference to core transforms. Mostly used to replace
         fast with slow core transforms, for testing.
-    **kwargs
+    **kwargs, optional
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns

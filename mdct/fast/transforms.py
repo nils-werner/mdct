@@ -25,7 +25,7 @@ def mdct(x, odd=True):
     ----------
     X : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
@@ -44,7 +44,7 @@ def imdct(X, odd=True):
     ----------
     X : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
@@ -63,7 +63,7 @@ def mdst(x, odd=True):
     ----------
     X : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
@@ -82,7 +82,7 @@ def imdst(X, odd=True):
     ----------
     X : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
@@ -101,7 +101,7 @@ def cmdct(x, odd=True):
     ----------
     x : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
@@ -141,7 +141,7 @@ def icmdct(X, odd=True):
     ----------
     X : array_like
         The input signal
-    odd : boolean
+    odd : boolean, optional
         Switch to oddly stacked transform. Defaults to :code:`True`.
 
     Returns
