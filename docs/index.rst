@@ -9,7 +9,7 @@ This toolkit implements several related transforms and their inverses:
 
 All transforms are implemented as
 
- - the complete lapped transform, along with windowing and overlap-add reconstruction and
+ - the complete lapped transform, along with windowing and time domain aliasing cancellation (TDAC) reconstruction and
  - the core un-windowed standalone transform.
 
 All transforms are implemeted in
@@ -21,7 +21,7 @@ Usage
 -----
 
 .. warning::
-    :py:mod:`mdct.fast` is exposed as :py:mod:`mdct` directly. Please use this module.
+    :py:mod:`mdct.fast` is exposed as :py:mod:`mdct`. Please use this module directly.
 
 .. code-block:: python
 

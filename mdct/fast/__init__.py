@@ -32,11 +32,11 @@ def mdct(
     x : array_like
         The input signal
     odd : boolean, optional
-        Oddly stacked transform
+        Switch to oddly stacked transform. Defaults to :code:`True`.
     transforms : module, optional
         Module reference to core transforms. Mostly used to replace
-        fast with slow core transforms, for testing.
-    **kwargs
+        fast with slow core transforms, for testing. Defaults to
+        :mod:`mdct.fast`
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -86,11 +86,11 @@ def imdct(
     x : array_like
         The input signal
     odd : boolean, optional
-        Oddly stacked transform
+        Switch to oddly stacked transform. Defaults to :code:`True`.
     transforms : module, optional
         Module reference to core transforms. Mostly used to replace
-        fast with slow core transforms, for testing.
-    **kwargs, optional
+        fast with slow core transforms, for testing. Defaults to
+        :mod:`mdct.fast`
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -140,11 +140,11 @@ def mdst(
     x : array_like
         The input signal
     odd : boolean, optional
-        Oddly stacked transform
+        Switch to oddly stacked transform. Defaults to :code:`True`.
     transforms : module, optional
         Module reference to core transforms. Mostly used to replace
-        fast with slow core transforms, for testing.
-    **kwargs, optional
+        fast with slow core transforms, for testing. Defaults to
+        :mod:`mdct.fast`
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -194,11 +194,11 @@ def imdst(
     x : array_like
         The input signal
     odd : boolean, optional
-        Oddly stacked transform
+        Switch to oddly stacked transform. Defaults to :code:`True`.
     transforms : module, optional
         Module reference to core transforms. Mostly used to replace
-        fast with slow core transforms, for testing.
-    **kwargs, optional
+        fast with slow core transforms, for testing. Defaults to
+        :mod:`mdct.fast`
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
@@ -248,10 +248,11 @@ def cmdct(
     x : array_like
         The input signal
     odd : boolean, optional
-        Oddly stacked transform
+        Switch to oddly stacked transform. Defaults to :code:`True`.
     transforms : module, optional
         Module reference to core transforms. Mostly used to replace
-        fast with slow core transforms, for testing.
+        fast with slow core transforms, for testing. Defaults to
+        :mod:`mdct.fast`
     **kwargs, optional
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
@@ -289,11 +290,11 @@ def icmdct(
     x : array_like
         The input signal
     odd : boolean, optional
-        Oddly stacked transform
+        Switch to oddly stacked transform. Defaults to :code:`True`.
     transforms : module, optional
         Module reference to core transforms. Mostly used to replace
-        fast with slow core transforms, for testing.
-    **kwargs, optional
+        fast with slow core transforms, for testing. Defaults to
+        :mod:`mdct.fast`
         Additional keyword arguments passed to :code:`stft.spectrogram`
 
     Returns
