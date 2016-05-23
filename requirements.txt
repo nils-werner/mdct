@@ -1,5 +1,6 @@
 # This is only needed for Read The Docs
 
+numpy>=1.6
 sphinx
 sphinx_rtd_theme
 numpydoc
