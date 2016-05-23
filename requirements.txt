@@ -1,0 +1,5 @@
+# This is only needed for Read The Docs
+
+sphinx
+sphinx_rtd_theme
+numpydoc
