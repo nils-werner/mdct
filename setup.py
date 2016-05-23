@@ -10,6 +10,7 @@ if __name__ == "__main__":
         description='A fast MDCT implementation using SciPy and FFTs',
         author='Nils Werner',
         author_email='nils.werner@gmail.com',
+        url='http://mdct.readthedocs.io/',
 
         license='MIT',
         packages=setuptools.find_packages(),
