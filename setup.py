@@ -27,8 +27,7 @@ if __name__ == "__main__":
                 'tox',
             ],
             'docs': [
-                'sphinx',
-                'sphinxcontrib-napoleon',
+                'sphinx<=1.3',
                 'sphinx_rtd_theme',
                 'numpydoc',
             ],
