@@ -9,6 +9,7 @@ before_install:
     - if [[ $TRAVIS_PYTHON_VERSION == *"3."* ]]; then sudo apt-get install python3-numpy python3-scipy; fi
     - sudo apt-get install -qq libatlas-dev libatlas-base-dev liblapack-dev gfortran
 install:
+    - pip install -U pip wheel
     - pip install -e .[tests,docs]
 script: 
     - py.test
