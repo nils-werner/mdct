@@ -52,7 +52,7 @@ def mdct(
     if transforms is None:
         transforms = transforms_default
 
-    kwargs.setdefault('framelength', 1024)
+    kwargs.setdefault('framelength', 2048)
 
     if not odd:
         return stft.spectrogram(
@@ -106,7 +106,7 @@ def imdct(
     if transforms is None:
         transforms = transforms_default
 
-    kwargs.setdefault('framelength', 1024)
+    kwargs.setdefault('framelength', 2048)
 
     if not odd:
         return stft.ispectrogram(
@@ -160,7 +160,7 @@ def mdst(
     if transforms is None:
         transforms = transforms_default
 
-    kwargs.setdefault('framelength', 1024)
+    kwargs.setdefault('framelength', 2048)
 
     if not odd:
         return stft.spectrogram(
@@ -214,7 +214,7 @@ def imdst(
     if transforms is None:
         transforms = transforms_default
 
-    kwargs.setdefault('framelength', 1024)
+    kwargs.setdefault('framelength', 2048)
 
     if not odd:
         return stft.ispectrogram(

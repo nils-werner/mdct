@@ -29,7 +29,7 @@ def sig(N, random):
     return numpy.random.rand(N)
 
 
-@pytest.fixture(params=(1024, 2048))
+@pytest.fixture(params=(256, 1024, 2048))
 def framelength(request):
     return request.param
 
