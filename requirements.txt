@@ -2,6 +2,8 @@
 pip >= 8.0.0
 wheel
 numpy>=1.6
+scipy>=0.13.0
+stft>=0.5.2
 sphinx
 sphinx_rtd_theme
 numpydoc
