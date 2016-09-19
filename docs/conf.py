@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'MDCT'
-copyright = '2014, International AudioLabs Erlangen'
+copyright = '2014, Nils Werner'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -206,7 +206,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     ('index', 'index.tex', 'MDCT Documentation',
-     'International AudioLabs Erlangen', 'manual'),
+     'Nils Werner', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -236,7 +236,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'mdct', 'MDCT Documentation',
-     ['International AudioLabs Erlangen'], 1)
+     ['Nils Werner'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -250,7 +250,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'mdct', 'MDCT Documentation',
-     'International AudioLabs Erlangen', 'MDCT',
+     'Nils Werner', 'MDCT',
      'One line description of project.',
      'Miscellaneous'),
 ]

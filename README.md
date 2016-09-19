@@ -1,7 +1,7 @@
 MDCT
 ====
 
-[![Build Status](https://travis-ci.org/audiolabs/mdct.svg?branch=master)](https://travis-ci.org/audiolabs/mdct)
+[![Build Status](https://travis-ci.org/nils-werner/mdct.svg?branch=master)](https://travis-ci.org/nils-werner/mdct)
 [![Docs Status](https://readthedocs.org/projects/mdct/badge/?version=latest)](https://mdct.readthedocs.org/en/latest/)
 
 A fast MDCT implementation using SciPy and FFTs
