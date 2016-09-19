@@ -37,6 +37,7 @@ def kaiser_derived(M, beta):
            https://en.wikipedia.org/wiki/Kaiser_window
 
     """
+    M = int(M)
     try:
         from scipy.signal import kaiser_derived as scipy_kd
         return scipy_kd(M, beta)
