@@ -19,6 +19,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
+            echo "deb http://httpredir.debian.org/debian buster main non-free contrib" | sudo tee -a /etc/apt/sources.list
+            echo "deb-src http://httpredir.debian.org/debian buster main non-free contrib" | sudo tee -a /etc/apt/sources.list
             sudo apt-get update -yy
             sudo apt-get build-dep -yy python-numpy fftw3
             sudo apt-get install -yy fftw3-dev
