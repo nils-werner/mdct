@@ -19,9 +19,9 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            apt-get update -yy
-            apt-get build-dep -yy python-numpy fftw3
-            apt-get install -yy fftw3-dev
+            sudo apt-get update -yy
+            sudo apt-get build-dep -yy python-numpy fftw3
+            sudo apt-get install -yy fftw3-dev
             python3 -m venv venv
             . venv/bin/activate
             pip install -e .[tests,docs]
