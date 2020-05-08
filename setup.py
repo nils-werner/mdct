@@ -24,7 +24,7 @@ if __name__ == "__main__":
             'tests': [
                 'pytest',
                 'pytest-cov',
-                'pytest-pep8',
+                'pytest-pycodestyle',
                 'tox',
             ],
             'docs': [
@@ -36,7 +36,7 @@ if __name__ == "__main__":
         tests_require=[
             'pytest',
             'pytest-cov',
-            'pytest-pep8',
+            'pytest-pycodestyle',
         ],
 
         classifiers=[
