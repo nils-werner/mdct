@@ -125,7 +125,7 @@ def cmdct(x, odd=True):
         -1j * numpy.pi * n0 * (numpy.arange(outlen) + offset) / N
     )
 
-    X = scipy.fftpack.fft(x * pre_twiddle)[:outlen]
+    X = scipy.fft(x * pre_twiddle)[:outlen]
 
     if not odd:
         X[0] *= numpy.sqrt(0.5)
@@ -184,7 +184,7 @@ def icmdct(X, odd=True):
 
     pre_twiddle = numpy.exp(1j * numpy.pi * n0 * numpy.arange(N * 2) / N)
 
-    y = scipy.fftpack.ifft(Y * pre_twiddle)
+    y = scipy.ifft(Y * pre_twiddle)
 
     return numpy.real(y * post_twiddle) * numpy.sqrt(N)
 
